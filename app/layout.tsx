@@ -1,8 +1,20 @@
 import type { Metadata } from "next"
+import { Inter, Noto_Nastaliq_Urdu } from "next/font/google"
 import "./globals.css"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import { LanguageProvider } from "@/lib/LanguageContext"
+
+const inter = Inter({ 
+  subsets: ["latin"],
+  variable: "--font-inter",
+})
+
+const notoUrdu = Noto_Nastaliq_Urdu({
+  weight: ["400", "700"],
+  subsets: ["arabic"],
+  variable: "--font-noto-urdu",
+})
 
 export const metadata: Metadata = {
   title: "MediBridge — AI Medicine Substitute Finder Pakistan",
@@ -25,7 +37,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="antialiased">
+    <html lang="en" className={`${inter.variable} ${notoUrdu.variable} antialiased`}>
       <body className="min-h-screen bg-[#0A0F1E] text-white selection:bg-cyan-400/30 selection:text-white">
         <LanguageProvider>
           <div className="flex min-h-screen flex-col">
