@@ -5,7 +5,7 @@ const translations = {
     search_placeholder: "Enter medicine name e.g. Panadol, Augmentin...",
     search_button: "Find Substitutes",
     loading_text: "AI is analyzing medicine database...",
-    no_result: "Medicine not found. Please check the spelling.",
+    no_result: "Failed to fetch medicine data. Please try again.",
     cheaper: "Cheaper",
     expensive: "Expensive",
     same_price: "Same Price",

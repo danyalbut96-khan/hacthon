@@ -48,7 +48,13 @@ export default function SearchBox({ initialValue = "", className, large = false 
         body: JSON.stringify({ medicineName: searchTerm.trim() }),
       })
 
-      const data = await response.json()
+      let data;
+      try {
+        data = await response.json()
+      } catch (jsonErr) {
+        console.error("Failed to parse error response:", jsonErr)
+        throw new Error(t("no_result"))
+      }
 
       if (!response.ok) {
         throw new Error(data.error || t("no_result"))

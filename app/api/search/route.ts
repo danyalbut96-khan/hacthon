@@ -11,51 +11,57 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const prompt = `You are a professional pharmacist in Pakistan with 20 years of experience.
-     
-Find complete information and substitutes for this medicine: "${medicineName}" 
+    if (!process.env.OPENROUTER_API_KEY || process.env.OPENROUTER_API_KEY === "your_openrouter_key_here") {
+      return NextResponse.json(
+        { error: "OpenRouter API key is not configured. Please add it to your environment variables." },
+        { status: 500 }
+      )
+    }
 
-Respond ONLY in valid JSON format, no markdown, no extra text, no backticks: 
+    const prompt = `You are an expert pharmacist in Pakistan.
+    
+Search for this medicine: "${medicineName}"
 
+If the name is slightly misspelled (like "pandol", "panadol", "augmetin"), correct it to the actual medicine available in Pakistan.
+
+Provide the response in EXACTLY this JSON format:
 {
   "originalMedicine": {
-    "name": "exact medicine name",
-    "genericName": "scientific/generic name",
-    "salt": "active ingredient with strength",
-    "uses": "what conditions it treats",
-    "sideEffects": ["side effect 1", "side effect 2", "side effect 3"],
-    "manufacturer": "company name",
-    "estimatedPrice": 50,
+    "name": "Corrected Name",
+    "genericName": "Generic Name",
+    "salt": "Active Ingredient",
+    "uses": "Primary uses",
+    "sideEffects": ["Effect 1", "Effect 2"],
+    "manufacturer": "Company Name",
+    "estimatedPrice": 100,
     "type": "tablet"
   },
   "substitutes": [
     {
-      "id": "sub_1",
-      "name": "substitute medicine name",
-      "salt": "same active ingredient",
-      "manufacturer": "Pakistani pharma company",
-      "estimatedPrice": 35,
+      "id": "1",
+      "name": "Substitute Name",
+      "salt": "Same Active Ingredient",
+      "manufacturer": "Pakistani Company",
+      "estimatedPrice": 80,
       "strength": "500mg",
       "type": "tablet",
       "priceComparison": "cheaper",
       "availability": "high",
-      "rating": 4.2,
-      "note": "widely available at all pharmacies"
+      "rating": 4.5,
+      "note": "Description"
     }
   ],
-  "warning": "any important medical warning or empty string",
-  "disclaimer": "Always consult a doctor before switching medicines"
+  "warning": "Medical warning",
+  "disclaimer": "Consult a doctor"
 }
 
 Rules:
-- Give exactly 4 to 5 substitutes
-- Only medicines available in Pakistan
-- priceComparison must be: cheaper, same, or expensive
-- availability must be: high, medium, or low
-- type must be: tablet, syrup, injection, cream, or drops
-- estimatedPrice in Pakistani Rupees as number only
-- rating between 3.0 and 5.0
-- If medicine completely unknown, return: {"error": "Medicine not found. Please check spelling."}`
+1. Only Pakistani medicines.
+2. 4-5 substitutes.
+3. Valid JSON only.
+4. If the medicine is completely unknown, return: {"error": "Medicine not found in Pakistan database."}
+
+Response:`
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
@@ -88,24 +94,38 @@ Rules:
     }
 
     const data = await response.json()
-    const rawText = data.choices[0]?.message?.content || ""
+    let rawText = data.choices[0]?.message?.content || ""
+    console.log("AI Raw Response:", rawText)
 
-    // Clean and parse JSON
-    const cleanText = rawText
-      .replace(/```json/g, "")
-      .replace(/```/g, "")
-      .trim()
-
-    const parsed = JSON.parse(cleanText)
-
-    if (parsed.error) {
-      return NextResponse.json(
-        { error: parsed.error },
-        { status: 404 }
-      )
+    // More robust JSON cleaning
+    rawText = rawText.replace(/```json\s?/, "").replace(/```/, "").trim()
+    
+    // Find the first { and last } to extract JSON if there's extra text
+    const firstBrace = rawText.indexOf("{")
+    const lastBrace = rawText.lastIndexOf("}")
+    
+    if (firstBrace !== -1 && lastBrace !== -1) {
+      rawText = rawText.substring(firstBrace, lastBrace + 1)
     }
 
-    return NextResponse.json(parsed)
+    try {
+      const parsed = JSON.parse(rawText)
+
+      if (parsed.error) {
+        return NextResponse.json(
+          { error: parsed.error },
+          { status: 404 }
+        )
+      }
+
+      return NextResponse.json(parsed)
+    } catch (parseError) {
+      console.error("JSON Parse Error:", parseError, "Raw text:", rawText)
+      return NextResponse.json(
+        { error: "Invalid response from AI. Please try again." },
+        { status: 500 }
+      )
+    }
 
   } catch (error) {
     console.error("API Error:", error)
