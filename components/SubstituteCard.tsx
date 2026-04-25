@@ -1,198 +1,167 @@
 "use client"
 
-import { Substitute } from "@/types"
-import { Star, TrendingDown, TrendingUp, Minus, CheckCircle2, Share2, Pill, Droplet, Syringe, Container } from "lucide-react"
-import Link from "next/link"
+import { useEffect, useState } from "react"
+import { Star, TrendingDown, TrendingUp, Minus, Share2, Pill, Droplet, Syringe, Container } from "lucide-react"
 import { motion } from "framer-motion"
 import { useLanguage } from "@/lib/LanguageContext"
 import { cn } from "@/lib/utils"
-import { useState, useEffect } from "react"
+import { Substitute } from "@/types/medicine"
 
 interface SubstituteCardProps {
   substitute: Substitute
-  originalId: string
 }
 
-export default function SubstituteCard({ substitute, originalId }: SubstituteCardProps) {
+const typeIcons = {
+  tablet: <Pill className="h-5 w-5 text-cyan-500" />,
+  syrup: <Droplet className="h-5 w-5 text-amber-400" />,
+  injection: <Syringe className="h-5 w-5 text-rose-500" />,
+  cream: <Container className="h-5 w-5 text-violet-500" />,
+  drops: <Droplet className="h-5 w-5 text-sky-500" />,
+}
+
+const priceVariants = {
+  cheaper: { classes: "text-emerald-600 bg-emerald-100", icon: <TrendingDown className="h-3 w-3" /> },
+  same: { classes: "text-slate-600 bg-slate-100", icon: <Minus className="h-3 w-3" /> },
+  expensive: { classes: "text-amber-700 bg-amber-100", icon: <TrendingUp className="h-3 w-3" /> },
+} as const
+
+export default function SubstituteCard({ substitute }: SubstituteCardProps) {
   const { t } = useLanguage()
-  const [isChecked, setIsChecked] = useState(false)
+  const [selected, setSelected] = useState(false)
 
   useEffect(() => {
-    const handleUpdate = () => {
+    const syncSelected = () => {
       const saved = localStorage.getItem("compareList")
-      if (saved) {
-        const list = JSON.parse(saved)
-        setIsChecked(list.some((item: any) => item.id === substitute.id))
-      } else {
-        setIsChecked(false)
-      }
+      const list: Array<{ id: string }> = saved ? JSON.parse(saved) : []
+      setSelected(list.some((item) => item.id === substitute.id))
     }
-    window.addEventListener("compare-update", handleUpdate)
-    handleUpdate()
-    return () => window.removeEventListener("compare-update", handleUpdate)
+
+    syncSelected()
+    window.addEventListener("compare-update", syncSelected)
+    return () => window.removeEventListener("compare-update", syncSelected)
   }, [substitute.id])
 
   const toggleCompare = () => {
     const saved = localStorage.getItem("compareList")
-    let list = saved ? JSON.parse(saved) : []
-    
-    if (isChecked) {
-      list = list.filter((item: any) => item.id !== substitute.id)
-    } else {
-      if (list.length >= 3) {
-        alert("You can compare up to 3 medicines only.")
-        return
-      }
-      list.push({
-        id: substitute.id,
-        name: substitute.name,
-        estimatedPrice: substitute.estimatedPrice,
-        manufacturer: substitute.manufacturer,
-        availability: substitute.availability,
-        rating: substitute.rating
-      })
+    const list: Array<{ id: string; name: string; estimatedPrice: number; manufacturer: string; availability: string; rating: number }> = saved
+      ? JSON.parse(saved)
+      : []
+
+    if (selected) {
+      const updated = list.filter((item) => item.id !== substitute.id)
+      localStorage.setItem("compareList", JSON.stringify(updated))
+      window.dispatchEvent(new Event("compare-update"))
+      setSelected(false)
+      return
     }
-    
+
+    if (list.length >= 3) {
+      window.alert("You can compare up to 3 medicines only.")
+      return
+    }
+
+    list.push({
+      id: substitute.id,
+      name: substitute.name,
+      estimatedPrice: substitute.estimatedPrice,
+      manufacturer: substitute.manufacturer,
+      availability: substitute.availability,
+      rating: substitute.rating,
+    })
     localStorage.setItem("compareList", JSON.stringify(list))
     window.dispatchEvent(new Event("compare-update"))
+    setSelected(true)
   }
 
-  const shareInfo = () => {
-    const text = `I found substitutes for this medicine on MediBridge 💊\nCheapest option: ${substitute.name} at PKR ${substitute.estimatedPrice}\nFind yours at medbridge.vercel.app`
-    navigator.clipboard.writeText(text)
-    alert("Medicine info copied to clipboard!")
+  const shareInfo = async () => {
+    const message = `${t("share_text")}\n${substitute.name} — PKR ${substitute.estimatedPrice} — ${substitute.manufacturer}`
+    if (navigator.clipboard) {
+      await navigator.clipboard.writeText(message)
+      window.alert("Substitute details copied to clipboard.")
+    }
   }
 
-  const TypeIcon = {
-    tablet: <Pill className="h-5 w-5 text-blue-500" />,
-    syrup: <Droplet className="h-5 w-5 text-amber-500" />,
-    injection: <Syringe className="h-5 w-5 text-red-500" />,
-    cream: <Container className="h-5 w-5 text-purple-500" />,
-  }[substitute.type] || <Pill className="h-5 w-5 text-blue-500" />
-
-  const priceColor = {
-    cheaper: "text-green-600 bg-green-50",
-    same: "text-slate-600 bg-slate-50",
-    expensive: "text-red-600 bg-red-50"
-  }[substitute.priceComparison]
-
-  const priceIcon = {
-    cheaper: <TrendingDown className="h-4 w-4" />,
-    same: <Minus className="h-4 w-4" />,
-    expensive: <TrendingUp className="h-4 w-4" />
-  }[substitute.priceComparison]
+  const pricing = priceVariants[substitute.priceComparison]
 
   return (
-    <motion.div 
+    <motion.article
       whileHover={{ y: -8 }}
       className={cn(
-        "bg-white border-2 rounded-[2.5rem] p-6 transition-all group relative overflow-hidden",
-        isChecked ? "border-blue-500 shadow-xl" : "border-slate-100 shadow-sm hover:border-blue-200"
+        "glass-card rounded-[2.5rem] border border-white/10 bg-slate-950/80 p-7 shadow-[0_35px_90px_rgba(0,0,0,0.25)] transition-all",
+        selected ? "border-cyan-400/40 shadow-cyan-500/20" : "hover:border-cyan-300/30"
       )}
     >
-      <div className="flex justify-between items-start mb-6">
-        <div className="flex items-center gap-3">
-          <div className="bg-slate-50 p-3 rounded-2xl group-hover:bg-blue-50 transition-colors">
-            {TypeIcon}
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <div className="flex h-14 w-14 items-center justify-center rounded-3xl bg-slate-900/70 text-cyan-300 shadow-lg shadow-cyan-500/10">
+            {typeIcons[substitute.type] ?? <Pill className="h-5 w-5" />}
           </div>
           <div>
-            <h4 className="text-xl font-black text-slate-900 group-hover:text-blue-600 transition-colors">
-              {substitute.name}
-            </h4>
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{substitute.manufacturer}</p>
+            <h3 className="text-xl font-black text-white">{substitute.name}</h3>
+            <p className="text-sm uppercase tracking-[0.22em] text-slate-400">{substitute.manufacturer}</p>
           </div>
         </div>
-        <div className="flex flex-col items-end gap-2">
-          <div className="flex items-center gap-1 bg-amber-50 text-amber-600 px-2.5 py-1 rounded-full text-[10px] font-black">
-            <Star className="h-3 w-3 fill-amber-600" />
-            {substitute.rating}
-          </div>
-          <button 
-            onClick={shareInfo}
-            className="p-2 bg-slate-50 hover:bg-blue-50 rounded-full text-slate-400 hover:text-blue-600 transition-all"
-          >
-            <Share2 className="h-4 w-4" />
-          </button>
-        </div>
+
+        <button
+          type="button"
+          onClick={shareInfo}
+          className="inline-flex h-11 w-11 items-center justify-center rounded-3xl bg-white/10 text-slate-200 transition hover:bg-white/15"
+          aria-label="Share substitute"
+        >
+          <Share2 className="h-5 w-5" />
+        </button>
       </div>
 
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-6">
-          <motion.span 
-            initial={{ scale: 0.9 }}
-            animate={{ scale: 1 }}
-            className="text-3xl font-black text-slate-900"
-          >
-            PKR {substitute.estimatedPrice}
-          </motion.span>
-          <span className={cn(
-            "flex items-center gap-1 px-3 py-1 rounded-xl text-[10px] font-black uppercase tracking-tight",
-            priceColor
-          )}>
-            {priceIcon}
-            {t(substitute.priceComparison as any)}
-          </span>
+      <div className="mt-8 rounded-[2rem] bg-slate-900/80 p-6 text-white shadow-inner shadow-slate-950/20">
+        <p className="text-4xl font-black">PKR {substitute.estimatedPrice}</p>
+        <span className={cn("mt-3 inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-black uppercase tracking-[0.25em]", pricing.classes)}>
+          {pricing.icon}
+          {t(substitute.priceComparison as any)}
+        </span>
+      </div>
+
+      <div className="mt-6 space-y-4">
+        <div className="rounded-[2rem] border border-white/10 bg-white/5 p-4">
+          <p className="text-[11px] uppercase tracking-[0.28em] text-slate-400">{t("active_salt")}</p>
+          <p className="mt-2 text-sm text-slate-200">{substitute.salt}</p>
         </div>
-        
-        <div className="space-y-2">
-          <div className="flex justify-between items-center text-[10px] font-black text-slate-400 uppercase tracking-widest">
-            <span>{t("availability_high")}</span>
-            <span>{substitute.availability === 'high' ? '100%' : substitute.availability === 'medium' ? '50%' : '25%'}</span>
+
+        <div className="space-y-3">
+          <div className="flex items-center justify-between gap-4 text-sm text-slate-300">
+            <span>{t("avail_high")}</span>
+            <span className="font-black text-white">{substitute.availability === "high" ? "High" : substitute.availability === "medium" ? "Medium" : "Low"}</span>
           </div>
-          <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-            <motion.div 
+          <div className="h-2 overflow-hidden rounded-full bg-slate-900">
+            <motion.div
               initial={{ width: 0 }}
-              animate={{ 
-                width: substitute.availability === 'high' ? '100%' : substitute.availability === 'medium' ? '50%' : '25%' 
-              }}
+              animate={{ width: substitute.availability === "high" ? "100%" : substitute.availability === "medium" ? "60%" : "25%" }}
               className={cn(
                 "h-full rounded-full",
-                substitute.availability === 'high' ? 'bg-green-500' : substitute.availability === 'medium' ? 'bg-amber-500' : 'bg-red-500'
+                substitute.availability === "high" ? "bg-emerald-400" : substitute.availability === "medium" ? "bg-amber-400" : "bg-rose-500"
               )}
             />
           </div>
         </div>
+
+        {substitute.note && (
+          <div className="rounded-[1.75rem] bg-slate-900/80 px-4 py-3 text-sm text-slate-200">
+            {substitute.note}
+          </div>
+        )}
       </div>
 
-      <div className="flex items-center gap-3">
-        <label className="flex-grow flex items-center gap-2 bg-slate-50 hover:bg-slate-100 px-4 py-3 rounded-2xl cursor-pointer transition-all border border-transparent active:scale-95">
-          <input 
-            type="checkbox" 
-            checked={isChecked}
-            onChange={toggleCompare}
-            className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" 
-          />
-          <span className="text-sm font-bold text-slate-600">{t("compare")}</span>
-        </label>
-        <Link 
-          href={`/result/${originalId}?subId=${substitute.id}`}
-          className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-2xl shadow-lg shadow-blue-600/20 transition-all active:scale-95"
+      <div className="mt-6 flex items-center gap-4">
+        <button
+          type="button"
+          onClick={toggleCompare}
+          className={cn(
+            "flex-1 rounded-3xl border px-4 py-3 text-sm font-black uppercase tracking-[0.15em] transition",
+            selected ? "border-cyan-400 bg-cyan-500/10 text-cyan-300" : "border-white/10 bg-white/5 text-slate-200 hover:border-cyan-300/40 hover:bg-white/10"
+          )}
         >
-          <ArrowRightLeft className="h-5 w-5" />
-        </Link>
+          {t("compare")}
+        </button>
       </div>
-    </motion.div>
-  )
-}
-
-function ArrowRightLeft(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m16 3 4 4-4 4" />
-      <path d="M20 7H4" />
-      <path d="m8 21-4-4 4-4" />
-      <path d="M4 17h16" />
-    </svg>
+    </motion.article>
   )
 }
