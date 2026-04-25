@@ -2,87 +2,92 @@ import { ShieldCheck, Users, Target, Pill } from "lucide-react"
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen pt-20 pb-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Mission Section */}
-        <div className="text-center mb-24">
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">Our Mission</h1>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            MediBridge is dedicated to making healthcare more accessible and affordable for everyone in Pakistan. 
-            We believe that no one should suffer because they can't find or afford their essential medicines.
+    <div className="relative overflow-hidden bg-[#08101f] px-4 pb-24 pt-28 sm:px-6 lg:px-8">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(14,165,233,0.18),_transparent_30%),radial-gradient(circle_at_bottom_right,_rgba(245,158,11,0.12),_transparent_25%)]" />
+      <div className="relative mx-auto max-w-7xl text-white">
+        <header className="mb-20 text-center">
+          <p className="text-sm uppercase tracking-[0.35em] text-cyan-300 mb-4">Built for Pakistan 🇵🇰</p>
+          <h1 className="text-4xl font-black sm:text-5xl lg:text-6xl leading-tight">MediBridge brings medicine alternatives to life with premium AI design.</h1>
+          <p className="mx-auto mt-6 max-w-2xl text-slate-300 text-lg leading-relaxed">
+            We help Pakistani patients, caregivers and pharmacists discover verified substitutes, compare prices and decide with confidence.
           </p>
-        </div>
+        </header>
 
-        {/* Values Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-32">
-          <div className="text-center">
-            <div className="bg-blue-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <ShieldCheck className="h-8 w-8 text-blue-600" />
+        <section className="grid gap-6 lg:grid-cols-3 mb-20">
+          {[
+            {
+              icon: <ShieldCheck className="h-8 w-8 text-cyan-300" />,
+              title: "Trusted by local users",
+              text: "Built for real Pakistani medicine needs with quality and context.",
+            },
+            {
+              icon: <Target className="h-8 w-8 text-emerald-300" />,
+              title: "AI that understands salts",
+              text: "We match active ingredients and local brands for real substitute suggestions.",
+            },
+            {
+              icon: <Users className="h-8 w-8 text-amber-300" />,
+              title: "Designed for accessibility",
+              text: "Dark mode, Urdu support, and simplified medicine comparison for every user.",
+            },
+          ].map((card) => (
+            <div key={card.title} className="glass-card border border-white/10 p-8 rounded-[2.5rem] shadow-[0_40px_120px_rgba(0,0,0,0.25)]">
+              <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-white/10 text-white shadow-lg shadow-cyan-500/20">
+                {card.icon}
+              </div>
+              <h2 className="text-2xl font-black mb-3">{card.title}</h2>
+              <p className="text-slate-300 leading-relaxed">{card.text}</p>
             </div>
-            <h3 className="text-xl font-bold text-slate-900 mb-4">Verified Data</h3>
-            <p className="text-slate-500">
-              Our database is powered by official medical registries and verified by healthcare professionals.
-            </p>
-          </div>
-          <div className="text-center">
-            <div className="bg-green-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <Target className="h-8 w-8 text-green-600" />
-            </div>
-            <h3 className="text-xl font-bold text-slate-900 mb-4">AI Precision</h3>
-            <p className="text-slate-500">
-              We use advanced algorithms to match active ingredients and ensure therapeutic equivalence.
-            </p>
-          </div>
-          <div className="text-center">
-            <div className="bg-indigo-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <Users className="h-8 w-8 text-indigo-600" />
-            </div>
-            <h3 className="text-xl font-bold text-slate-900 mb-4">Community Focused</h3>
-            <p className="text-slate-500">
-              Built for the people of Pakistan, considering local availability and economic factors.
-            </p>
-          </div>
-        </div>
+          ))}
+        </section>
 
-        {/* How it works */}
-        <div className="bg-slate-900 rounded-[3rem] p-12 md:p-20 text-white mb-32">
-          <h2 className="text-3xl font-bold mb-12 text-center">How MediBridge Works</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-            <div className="space-y-4">
-              <div className="text-blue-400 text-5xl font-black opacity-30">01</div>
-              <h4 className="text-xl font-bold">Data Aggregation</h4>
-              <p className="text-slate-400">We collect medicine data from various licensed pharmaceutical companies across Pakistan.</p>
-            </div>
-            <div className="space-y-4">
-              <div className="text-blue-400 text-5xl font-black opacity-30">02</div>
-              <h4 className="text-xl font-bold">Formula Matching</h4>
-              <p className="text-slate-400">Our AI analyzes the chemical composition and salt formula to find identical substitutes.</p>
-            </div>
-            <div className="space-y-4">
-              <div className="text-blue-400 text-5xl font-black opacity-30">03</div>
-              <h4 className="text-xl font-bold">User Access</h4>
-              <p className="text-slate-400">You search for a medicine and instantly get a list of affordable, available alternatives.</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Disclaimer */}
-        <div className="max-w-4xl mx-auto bg-white border border-slate-200 rounded-3xl p-8 md:p-12 shadow-sm">
-          <div className="flex flex-col md:flex-row gap-8 items-center">
-            <div className="bg-red-50 p-6 rounded-2xl">
-              <Pill className="h-12 w-12 text-red-500" />
-            </div>
-            <div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">Medical Disclaimer</h3>
-              <p className="text-slate-600 leading-relaxed">
-                The information provided on MediBridge is for educational and informational purposes only. 
-                It is not intended as a substitute for professional medical advice, diagnosis, or treatment. 
-                Always seek the advice of your physician or other qualified health provider with any questions 
-                you may have regarding a medical condition or switching medications.
+        <section className="rounded-[3rem] border border-white/10 bg-slate-950/70 p-10 shadow-[0_40px_120px_rgba(0,0,0,0.3)]">
+          <div className="grid gap-8 lg:grid-cols-2">
+            <div className="space-y-6">
+              <h2 className="text-3xl font-black">How it works</h2>
+              <p className="text-slate-300 leading-relaxed">
+                Enter any medicine name and let MediBridge match it with affordable Pakistani alternatives. The AI is tuned to local brands, salts and prices so you can make faster decisions.
               </p>
             </div>
+            <div className="space-y-4">
+              {[
+                "Search any medicine brand or generic name.",
+                "AI analyzes salt composition and availability.",
+                "Compare substitutes, price, and availability instantly.",
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-4 rounded-3xl bg-slate-900/90 p-6 border border-slate-800">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-cyan-500/10 text-cyan-300">✓</span>
+                  <p className="text-slate-300 leading-relaxed">{item}</p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        </section>
+
+        <section className="mt-20 grid gap-8 lg:grid-cols-2">
+          <div className="rounded-[2.5rem] border border-white/10 bg-slate-950/70 p-10 shadow-[0_30px_90px_rgba(0,0,0,0.25)]">
+            <h3 className="text-2xl font-black mb-4">Tech Stack</h3>
+            <ul className="space-y-3 text-slate-300">
+              <li>Next.js 14</li>
+              <li>TypeScript</li>
+              <li>Tailwind CSS</li>
+              <li>Framer Motion</li>
+              <li>OpenRouter AI (Llama 3.1)</li>
+            </ul>
+          </div>
+          <div className="rounded-[2.5rem] border-l-4 border-amber-400 bg-amber-500/10 p-10 shadow-[0_30px_90px_rgba(255,159,11,0.15)]">
+            <h3 className="text-2xl font-black mb-4">Medical Disclaimer</h3>
+            <p className="text-slate-300 leading-relaxed">
+              MediBridge is a guidance tool and not a replacement for professional medical advice. Always consult a licensed healthcare provider before switching medicines.
+            </p>
+          </div>
+        </section>
+
+        <footer className="mt-20 rounded-[2.5rem] border border-white/10 bg-slate-950/80 p-10 text-slate-400">
+          <p className="text-sm leading-relaxed">
+            Want to share feedback? Visit Cloudexify or use the main page to search another medicine. Our mission is to reduce medicine friction across Pakistan.
+          </p>
+        </footer>
       </div>
     </div>
   )

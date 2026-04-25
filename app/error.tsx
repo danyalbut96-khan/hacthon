@@ -2,19 +2,19 @@
 
 export default function Error({ reset }: { reset: () => void }) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 text-center">
-      <div className="bg-red-50 p-6 rounded-full mb-6">
-        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-500"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <div className="flex min-h-[70vh] flex-col items-center justify-center bg-[#07101f] px-4 text-center text-white">
+      <div className="mb-6 inline-flex h-28 w-28 items-center justify-center rounded-full bg-amber-500/10 shadow-[0_0_80px_rgba(245,158,11,0.24)]">
+        <span className="text-5xl">⚠️</span>
       </div>
-      <h2 className="text-3xl font-black text-slate-900 mb-4 uppercase tracking-tight">Something went wrong!</h2>
-      <p className="text-slate-500 mb-8 max-w-md font-medium">
-        We encountered an unexpected error while processing your request. Please try again.
+      <h2 className="text-3xl font-black mb-4 uppercase tracking-[0.15em]">Something went wrong</h2>
+      <p className="max-w-xl text-slate-400 mb-8 leading-relaxed">
+        We hit a snag while loading the page. Refresh or try again in a moment and your medicine search will be ready.
       </p>
-      <button 
-        onClick={reset} 
-        className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-2xl font-black shadow-lg shadow-blue-600/20 transition-all active:scale-95"
+      <button
+        onClick={reset}
+        className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-cyan-500 to-emerald-500 px-10 py-3 text-sm font-black uppercase tracking-[0.18em] text-white shadow-[0_24px_80px_rgba(14,165,233,0.24)] transition hover:opacity-95"
       >
-        Try Again
+        Reload Page
       </button>
     </div>
   )
