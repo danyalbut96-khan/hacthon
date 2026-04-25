@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💊 MediBridge
+### AI-Powered Medicine Substitute Finder for Pakistan
 
-## Getting Started
+![MediBridge Banner](public/banner.png)
 
-First, run the development server:
+## 🚀 Live Demo
+`https://medbridge.vercel.app`
 
-```bash
+## 🎯 Problem We Solve
+In Pakistan, prescribed medicines are often:
+- Unavailable at local pharmacies
+- Too expensive for average families
+- Discontinued without alternatives
+
+MediBridge uses AI to instantly find verified, 
+affordable medicine substitutes available in Pakistan.
+
+## ✨ Features
+- 🤖 AI-powered substitute finder (Gemini 1.5 Flash)
+- 🇵🇰 Pakistan-specific medicine database
+- 💰 Real-time price comparison
+- 🌐 Bilingual — English & Urdu
+- 📱 Fully mobile responsive
+- 🖨️ Print & WhatsApp share results
+- 📋 Search history
+- ⚖️ Side-by-side medicine comparison
+
+## 🛠️ Tech Stack
+- **Frontend:** Next.js 14, TypeScript, Tailwind CSS
+- **AI:** Google Gemini 1.5 Flash
+- **UI:** shadcn/ui, Framer Motion
+- **Deployment:** Vercel
+
+## 跑 Locally
+
+git clone https://github.com/YOUR_USERNAME/medibridge
+cd medibridge
+npm install
+cp .env.example .env.local
+# Add your Gemini API key to .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔑 Get Gemini API Key
+1. Go to `https://aistudio.google.com`
+2. Click "Get API Key"
+3. Copy and paste in .env.local
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Project Structure
+medibridge/
+├── app/
+│   ├── api/search/     # Gemini API route
+│   ├── result/         # Results page
+│   ├── search/         # Search page
+│   └── about/          # About page
+├── components/         # Reusable components
+├── lib/                # Utilities & translations
+└── public/             # Static assets
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🌍 Roadmap
+- [ ] Real pharmacy database integration
+- [ ] Doctor verification system
+- [ ] Mobile app (React Native)
+- [ ] More Pakistani languages (Pashto, Sindhi)
+- [ ] Nearby pharmacy locator
+- [ ] Medicine reminder feature
 
-## Learn More
+## ⚠️ Disclaimer
+MediBridge is not a substitute for professional 
+medical advice. Always consult a doctor before 
+switching medicines.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 👨‍💻 Built By
+Made with ❤️ by `https://cloudexify.site`
