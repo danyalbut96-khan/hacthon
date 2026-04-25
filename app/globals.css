@@ -3,40 +3,53 @@
 @theme {
   --color-primary: #2563EB;
   --color-secondary: #10B981;
-  --color-background: #F8FAFC;
-  --color-text-main: #1E293B;
+  --color-background: #0A0F1E;
+  --color-text-main: #F8FAFC;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-urdu: var(--font-noto-urdu), serif;
+  
+  --animate-meshMove: meshMove 20s ease infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-pulse-fast: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes meshMove {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(2%, 3%) scale(1.05); }
+  66% { transform: translate(-1%, 2%) scale(0.95); }
 }
 
 :root {
-  --background: #F8FAFC;
-  --foreground: #1E293B;
+  --background: #0A0F1E;
+  --foreground: #F8FAFC;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+  min-height: 100vh;
 }
 
 @layer base {
   * {
-    @apply border-slate-200;
-  }
-  body {
-    @apply bg-background text-text-main;
+    @apply border-white/5;
   }
 }
 
-/* Custom styles for better UI */
-.glass-effect {
-  @apply bg-white/80 backdrop-blur-md border border-white/20;
+.glass-card {
+  @apply backdrop-blur-2xl bg-white/5 border border-white/10 rounded-[2.5rem] transition-all duration-500;
 }
 
-.card-shadow {
-  @apply shadow-[0_8px_30px_rgb(0,0,0,0.04)];
+.glass-card:hover {
+  @apply border-white/20 bg-white/10;
 }
 
-.card-hover {
-  @apply hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300;
+.urdu {
+  font-family: var(--font-urdu);
+  line-height: 1.8;
+}
+
+.pill-3d {
+  @apply rounded-full bg-gradient-to-br from-cyan-400 to-blue-600;
+  transform: perspective(1000px) rotateX(10deg) rotateY(-10deg);
 }

@@ -2,9 +2,5 @@
   "framework": "nextjs",
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
-  "installCommand": "npm install",
-  "env": {
-    "OPENROUTER_API_KEY": "@openrouter_api_key",
-    "NEXT_PUBLIC_APP_URL": "https://medbridge.vercel.app"
-  }
+  "installCommand": "npm install"
 }

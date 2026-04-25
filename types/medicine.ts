@@ -28,6 +28,7 @@ export interface MedicineResult {
   substitutes: Substitute[]
   warning: string
   disclaimer: string
+  healthInsights?: string[]
 }
 
 export interface SearchError {

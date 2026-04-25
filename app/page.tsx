@@ -107,6 +107,10 @@ export default function HomePage() {
     return result.substitutes.filter((substitute) => typeFilter === "all" || substitute.type === typeFilter)
   }, [result, typeFilter])
 
+  const showNoSubstitutes = useMemo(() => {
+    return result && filteredSubstitutes.length === 0
+  }, [result, filteredSubstitutes])
+
   const clearHistory = () => {
     setSearchHistory([])
     window.localStorage.removeItem(SEARCH_HISTORY_KEY)
@@ -221,16 +225,33 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <div className="glass-card border border-white/10 p-8 shadow-[0_35px_120px_rgba(14,165,233,0.08)]">
-                    <div className="flex items-center gap-3 text-slate-200 mb-4">
-                      <ShieldCheck className="h-6 w-6 text-emerald-300" />
-                      <h3 className="text-lg font-black text-white">Safety first</h3>
+                    <div className="glass-card border border-white/10 p-8 shadow-[0_35px_120px_rgba(14,165,233,0.08)]">
+                      <div className="flex items-center gap-3 text-slate-200 mb-4">
+                        <ShieldCheck className="h-6 w-6 text-emerald-300" />
+                        <h3 className="text-lg font-black text-white">Safety first</h3>
+                      </div>
+                      <p className="text-slate-300 leading-relaxed text-sm">
+                        Review each substitute carefully and consult your local pharmacist. MediBridge is designed to help you compare medicines, not to replace professional diagnosis.
+                      </p>
                     </div>
-                    <p className="text-slate-300 leading-relaxed text-sm">
-                      Review each substitute carefully and consult your local pharmacist. MediBridge is designed to help you compare medicines, not to replace professional diagnosis.
-                    </p>
+
+                    {result.healthInsights && result.healthInsights.length > 0 && (
+                      <div className="glass-card border border-cyan-500/20 bg-cyan-500/5 p-8 shadow-[0_35px_120px_rgba(6,182,212,0.1)]">
+                        <div className="flex items-center gap-3 text-cyan-200 mb-6">
+                          <Sparkles className="h-6 w-6" />
+                          <h3 className="text-lg font-black">AI Health Insights</h3>
+                        </div>
+                        <ul className="space-y-4">
+                          {result.healthInsights.map((insight, i) => (
+                            <li key={i} className="flex gap-3 text-sm text-slate-300">
+                              <div className="h-1.5 w-1.5 mt-1.5 rounded-full bg-cyan-500 shrink-0" />
+                              {insight}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </div>
-                </div>
               </div>
 
               <div className="space-y-6">
