@@ -44,8 +44,8 @@ interface AIMedicineResult {
     estimatedPrice: number
     strength: string
     type: string
-    priceComparison: string
-    availability: string
+    priceComparison: "cheaper" | "same" | "expensive"
+    availability: "high" | "medium" | "low"
     rating: number
     note: string
   }>
