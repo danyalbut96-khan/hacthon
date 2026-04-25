@@ -62,7 +62,7 @@ export default function ResultDetailPage() {
                   </div>
                   <div className="bg-slate-50 rounded-2xl p-6 flex flex-col justify-center items-center text-center">
                     <span className="text-slate-500 text-sm mb-1 uppercase tracking-wider font-bold">Average Price</span>
-                    <span className="text-4xl font-black text-slate-900">PKR {medicine.price}</span>
+                    <span className="text-4xl font-black text-slate-900">PKR {medicine.estimatedPrice}</span>
                     <span className="text-slate-400 text-xs mt-2">Price may vary by pharmacy</span>
                   </div>
                 </div>
@@ -85,16 +85,16 @@ export default function ResultDetailPage() {
                     <tr className="bg-blue-50/30">
                       <td className="px-6 py-4 font-bold text-slate-900">{medicine.name} (Original)</td>
                       <td className="px-6 py-4 text-slate-600">{medicine.manufacturer}</td>
-                      <td className="px-6 py-4 font-bold text-slate-900">PKR {medicine.price}</td>
+                      <td className="px-6 py-4 font-bold text-slate-900">PKR {medicine.estimatedPrice}</td>
                       <td className="px-6 py-4 text-slate-400">-</td>
                     </tr>
                     {allSubstitutes.map((sub) => (
                       <tr key={sub.id} className={sub.id === subId ? "bg-green-50" : ""}>
                         <td className="px-6 py-4 font-semibold text-slate-700">{sub.name}</td>
                         <td className="px-6 py-4 text-slate-500">{sub.manufacturer}</td>
-                        <td className="px-6 py-4 font-bold text-slate-900">PKR {sub.price}</td>
+                        <td className="px-6 py-4 font-bold text-slate-900">PKR {sub.estimatedPrice}</td>
                         <td className="px-6 py-4 font-bold text-green-600">
-                          {medicine.price - sub.price > 0 ? `Save PKR ${medicine.price - sub.price}` : "-"}
+                          {medicine.estimatedPrice - sub.estimatedPrice > 0 ? `Save PKR ${medicine.estimatedPrice - sub.estimatedPrice}` : "-"}
                         </td>
                       </tr>
                     ))}
