@@ -3,57 +3,55 @@ import { Pill, Heart } from "lucide-react"
 
 export default function Footer() {
   return (
-    <footer className="bg-white border-t border-slate-200 pt-12 pb-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-          <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-blue-600 mb-4">
-              <Pill className="h-8 w-8" />
-              <span>MediBridge</span>
-            </Link>
-            <p className="text-slate-500 max-w-sm mb-6">
-              AI-powered medicine substitute finder for Pakistan. Helping you find affordable and verified alternatives to your essential medicines.
-            </p>
-            <div className="text-sm text-slate-400 font-medium italic">
-              "MediBridge is not a substitute for professional medical advice"
+    <footer className="border-t border-white/10 bg-[#060b16] text-slate-300">
+      <div className="mx-auto flex max-w-7xl flex-col gap-12 px-4 py-16 sm:px-6 lg:px-8">
+        <div className="grid gap-12 lg:grid-cols-3">
+          <div className="space-y-4">
+            <div className="inline-flex items-center gap-3">
+              <div className="inline-flex h-12 w-12 items-center justify-center rounded-3xl bg-gradient-to-br from-cyan-500 via-sky-500 to-emerald-500 text-white shadow-lg shadow-cyan-500/20">
+                <Pill className="h-6 w-6" />
+              </div>
+              <div>
+                <p className="text-sm uppercase tracking-[0.35em] text-cyan-300">MediBridge</p>
+                <p className="text-2xl font-black text-white">AI Medicine Substitute Finder</p>
+              </div>
             </div>
+            <p className="max-w-md leading-relaxed text-slate-400">
+              Instant medicine substitute recommendations for Pakistan. Explore alternatives with price, availability and safety notes in one premium interface.
+            </p>
           </div>
 
           <div>
-            <h4 className="text-slate-900 font-bold mb-4">Quick Links</h4>
-            <ul className="space-y-2">
-              <li><Link href="/" className="text-slate-500 hover:text-blue-600 transition-colors">Home</Link></li>
-              <li><Link href="/search" className="text-slate-500 hover:text-blue-600 transition-colors">Search</Link></li>
-              <li><Link href="/about" className="text-slate-500 hover:text-blue-600 transition-colors">About</Link></li>
+            <h3 className="mb-6 text-sm font-semibold uppercase tracking-[0.35em] text-slate-400">Quick links</h3>
+            <ul className="space-y-3 text-slate-400">
+              <li>
+                <Link href="#search" className="transition hover:text-cyan-300">Home</Link>
+              </li>
+              <li>
+                <Link href="/about" className="transition hover:text-cyan-300">About</Link>
+              </li>
+              <li>
+                <Link href="/" className="transition hover:text-cyan-300">Search</Link>
+              </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-slate-900 font-bold mb-4">Contact</h4>
-            <ul className="space-y-2">
-              <li className="text-slate-500">Email: contact@medibridge.pk</li>
-              <li className="text-slate-500">Location: Karachi, Pakistan</li>
-            </ul>
+            <h3 className="mb-6 text-sm font-semibold uppercase tracking-[0.35em] text-slate-400">Disclaimer</h3>
+            <p className="leading-relaxed text-slate-400">
+              MediBridge is not a substitute for professional medical advice. Always consult a licensed doctor before changing any medication.
+            </p>
           </div>
         </div>
 
-        <div className="border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-slate-500 text-sm">
-            © 2025 MediBridge. All rights reserved.
-          </p>
-          <div className="flex items-center gap-1 text-slate-500 text-sm">
-            <span>Made with</span>
-            <Heart className="h-4 w-4 text-red-500 fill-red-500" />
-            <span>by</span>
-            <Link 
-              href="https://cloudexify.site" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="font-bold text-blue-600 hover:underline"
-            >
+        <div className="flex flex-col gap-4 border-t border-white/10 pt-8 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+          <p>© 2025 MediBridge. All rights reserved.</p>
+          <p className="flex items-center gap-2">
+            Made with <Heart className="h-4 w-4 text-red-500" /> by
+            <Link href="https://cloudexify.site" target="_blank" rel="noopener noreferrer" className="font-semibold text-cyan-300 transition hover:text-cyan-100">
               Cloudexify
             </Link>
-          </div>
+          </p>
         </div>
       </div>
     </footer>

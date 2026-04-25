@@ -2,82 +2,85 @@
 
 import Link from "next/link"
 import { useState } from "react"
-import { Menu, X, Pill, Languages } from "lucide-react"
+import { Menu, X, Pill, Globe, Sparkles } from "lucide-react"
 import { useLanguage } from "@/lib/LanguageContext"
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
-  const { language, setLanguage, t } = useLanguage()
+  const { language, setLanguage } = useLanguage()
 
   const toggleLanguage = () => {
     setLanguage(language === "en" ? "ur" : "en")
   }
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          <div className="flex items-center">
-            <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-blue-600">
-              <Pill className="h-8 w-8" />
-              <span>MediBridge</span>
-            </Link>
-          </div>
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#09111f]/80 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between gap-4">
+          <Link href="/" className="flex items-center gap-3 text-white transition hover:opacity-90">
+            <div className="inline-flex h-12 w-12 items-center justify-center rounded-3xl bg-gradient-to-br from-cyan-500 via-sky-500 to-emerald-500 shadow-lg shadow-cyan-500/20">
+              <Pill className="h-6 w-6" />
+            </div>
+            <div>
+              <p className="text-sm uppercase tracking-[0.35em] text-slate-300">MediBridge</p>
+              <p className="text-xl font-black text-white">Medicine Alternative AI</p>
+            </div>
+          </Link>
 
-          <div className="hidden md:flex items-center gap-8">
-            <Link href="/" className="text-slate-600 hover:text-blue-600 font-medium transition-colors">Home</Link>
-            <Link href="/about" className="text-slate-600 hover:text-blue-600 font-medium transition-colors">About</Link>
-            
+          <div className="hidden items-center gap-4 md:flex">
+            <nav className="flex items-center gap-6 text-sm font-semibold text-slate-200">
+              <Link href="#search" className="transition hover:text-cyan-300">Home</Link>
+              <Link href="/about" className="transition hover:text-cyan-300">About</Link>
+            </nav>
+
             <button
+              type="button"
               onClick={toggleLanguage}
-              className="flex items-center gap-2 px-4 py-2 bg-slate-50 hover:bg-slate-100 rounded-xl text-sm font-bold text-slate-700 transition-all"
+              className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-bold uppercase tracking-[0.2em] text-slate-100 transition hover:border-cyan-300/40 hover:text-cyan-300"
             >
-              <Languages className="h-4 w-4" />
-              <span>{language === "en" ? "اردو" : "English"}</span>
+              {language === "en" ? "اردو" : "English"}
             </button>
 
-            <div className="flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full text-sm font-semibold text-slate-700 border border-slate-200">
-              <span>Pakistan</span>
-              <span>🇵🇰</span>
+            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-500/10 px-4 py-2 text-sm font-semibold text-cyan-100">
+              <Globe className="h-4 w-4" />
+              Pakistan
             </div>
           </div>
 
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-slate-600 hover:text-blue-600 p-2"
-            >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={() => setIsOpen(!isOpen)}
+            className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition hover:bg-white/10 md:hidden"
+          >
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
         </div>
-      </div>
 
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden bg-white border-b border-slate-200 pb-4 px-4">
-          <div className="flex flex-col gap-4">
-            <Link href="/" onClick={() => setIsOpen(false)} className="text-slate-600 hover:text-blue-600 font-medium py-2">Home</Link>
-            <Link href="/about" onClick={() => setIsOpen(false)} className="text-slate-600 hover:text-blue-600 font-medium py-2">About</Link>
-            
+        {isOpen && (
+          <div className="flex flex-col gap-3 rounded-[2rem] border border-white/10 bg-[#08101f]/95 p-4 shadow-[0_30px_80px_rgba(0,0,0,0.3)] md:hidden">
+            <Link href="#search" onClick={() => setIsOpen(false)} className="rounded-2xl px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/5 hover:text-cyan-300">
+              Home
+            </Link>
+            <Link href="/about" onClick={() => setIsOpen(false)} className="rounded-2xl px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/5 hover:text-cyan-300">
+              About
+            </Link>
             <button
+              type="button"
               onClick={() => {
                 toggleLanguage()
                 setIsOpen(false)
               }}
-              className="flex items-center gap-2 px-4 py-2 bg-slate-50 hover:bg-slate-100 rounded-xl text-sm font-bold text-slate-700 transition-all w-fit"
+              className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-slate-100 transition hover:bg-white/10 hover:text-cyan-300"
             >
-              <Languages className="h-4 w-4" />
-              <span>{language === "en" ? "اردو" : "English"}</span>
+              {language === "en" ? "اردو" : "English"}
             </button>
-
-            <div className="flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full text-sm font-semibold text-slate-700 w-fit">
-              <span>Pakistan</span>
-              <span>🇵🇰</span>
+            <div className="inline-flex items-center gap-2 rounded-2xl border border-cyan-500/20 bg-cyan-500/10 px-4 py-3 text-sm font-semibold text-cyan-100">
+              <Sparkles className="h-4 w-4" />
+              Pakistan
             </div>
           </div>
-        </div>
-      )}
-    </nav>
+        )}
+      </div>
+    </header>
   )
 }
