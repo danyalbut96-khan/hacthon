@@ -225,7 +225,7 @@ export default function AIResultPage() {
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: idx * 0.1 }}
                     >
-                      <SubstituteCard substitute={sub as any} originalId={originalMedicine.name} />
+                      <SubstituteCard substitute={sub} originalId={originalMedicine.name} />
                     </motion.div>
                   ))}
                 </AnimatePresence>

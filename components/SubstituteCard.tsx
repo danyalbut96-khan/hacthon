@@ -46,7 +46,7 @@ export default function SubstituteCard({ substitute, originalId }: SubstituteCar
       list.push({
         id: substitute.id,
         name: substitute.name,
-        price: substitute.price,
+        estimatedPrice: substitute.estimatedPrice,
         manufacturer: substitute.manufacturer,
         availability: substitute.availability,
         rating: substitute.rating
@@ -58,7 +58,7 @@ export default function SubstituteCard({ substitute, originalId }: SubstituteCar
   }
 
   const shareInfo = () => {
-    const text = `I found substitutes for this medicine on MediBridge 💊\nCheapest option: ${substitute.name} at PKR ${substitute.price}\nFind yours at medbridge.vercel.app`
+    const text = `I found substitutes for this medicine on MediBridge 💊\nCheapest option: ${substitute.name} at PKR ${substitute.estimatedPrice}\nFind yours at medbridge.vercel.app`
     navigator.clipboard.writeText(text)
     alert("Medicine info copied to clipboard!")
   }
@@ -68,7 +68,7 @@ export default function SubstituteCard({ substitute, originalId }: SubstituteCar
     syrup: <Droplet className="h-5 w-5 text-amber-500" />,
     injection: <Syringe className="h-5 w-5 text-red-500" />,
     cream: <Container className="h-5 w-5 text-purple-500" />,
-  }[substitute.type as string] || <Pill className="h-5 w-5 text-blue-500" />
+  }[substitute.type] || <Pill className="h-5 w-5 text-blue-500" />
 
   const priceColor = {
     cheaper: "text-green-600 bg-green-50",
@@ -123,7 +123,7 @@ export default function SubstituteCard({ substitute, originalId }: SubstituteCar
             animate={{ scale: 1 }}
             className="text-3xl font-black text-slate-900"
           >
-            PKR {substitute.price}
+            PKR {substitute.estimatedPrice}
           </motion.span>
           <span className={cn(
             "flex items-center gap-1 px-3 py-1 rounded-xl text-[10px] font-black uppercase tracking-tight",

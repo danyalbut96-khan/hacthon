@@ -33,7 +33,7 @@ export default function MedicineCard({ medicine }: MedicineCardProps) {
         </div>
         <div className="flex justify-between pt-2">
           <span className="text-slate-500 text-sm">Average Price</span>
-          <span className="text-2xl font-bold text-slate-900">PKR {medicine.price}</span>
+          <span className="text-2xl font-bold text-slate-900">PKR {medicine.estimatedPrice}</span>
         </div>
       </div>
     </div>

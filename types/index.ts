@@ -4,9 +4,11 @@ export interface Medicine {
   genericName: string
   salt: string
   manufacturer: string
-  price: number
-  type: "tablet" | "syrup" | "injection" | "cream"
+  estimatedPrice: number
+  type: string
   strength: string
+  uses?: string
+  sideEffects?: string[]
 }
 
 export interface Substitute {
@@ -14,8 +16,11 @@ export interface Substitute {
   name: string
   salt: string
   manufacturer: string
-  price: number
+  estimatedPrice: number
+  strength: string
+  type: string
   priceComparison: "cheaper" | "same" | "expensive"
   availability: "high" | "medium" | "low"
   rating: number
+  note?: string
 }

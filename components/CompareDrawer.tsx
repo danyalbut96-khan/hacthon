@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils"
 interface ComparisonItem {
   id: string
   name: string
-  price: number
+  estimatedPrice: number
   manufacturer: string
   availability: string
   rating: number
@@ -44,7 +44,7 @@ export default function CompareDrawer() {
 
   if (selected.length < 2) return null
 
-  const cheapest = [...selected].sort((a, b) => a.price - b.price)[0]
+  const cheapest = [...selected].sort((a, b) => a.estimatedPrice - b.estimatedPrice)[0]
 
   return (
     <AnimatePresence>
@@ -99,7 +99,7 @@ export default function CompareDrawer() {
                         "inline-block px-4 py-2 rounded-2xl font-black text-xl",
                         item.id === cheapest.id ? "bg-green-100 text-green-700 ring-2 ring-green-500/20" : "text-slate-900"
                       )}>
-                        PKR {item.price}
+                        PKR {item.estimatedPrice}
                       </div>
                     </td>
                   ))}
