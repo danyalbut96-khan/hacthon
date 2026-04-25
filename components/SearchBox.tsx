@@ -20,6 +20,12 @@ export default function SearchBox({ initialValue = "", className, large = false 
   const router = useRouter()
   const { t } = useLanguage()
 
+  useEffect(() => {
+    if (initialValue && initialValue.trim().length >= 2) {
+      handleSearch(initialValue.trim())
+    }
+  }, [initialValue])
+
   const addToHistory = (item: string) => {
     const savedHistory = localStorage.getItem("searchHistory")
     let history = savedHistory ? JSON.parse(savedHistory) : []

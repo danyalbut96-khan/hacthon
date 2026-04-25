@@ -12,11 +12,10 @@ In Pakistan, prescribed medicines are often:
 - Too expensive for average families
 - Discontinued without alternatives
 
-MediBridge uses AI to instantly find verified, 
-affordable medicine substitutes available in Pakistan.
+MediBridge uses AI to instantly find verified, affordable medicine substitutes available in Pakistan.
 
 ## ✨ Features
-- 🤖 AI-powered substitute finder (Gemini 1.5 Flash)
+- 🤖 AI-powered substitute finder (Llama 3.1 via OpenRouter)
 - 🇵🇰 Pakistan-specific medicine database
 - 💰 Real-time price comparison
 - 🌐 Bilingual — English & Urdu
@@ -27,28 +26,30 @@ affordable medicine substitutes available in Pakistan.
 
 ## 🛠️ Tech Stack
 - **Frontend:** Next.js 14, TypeScript, Tailwind CSS
-- **AI:** Google Gemini 1.5 Flash
+- **AI:** OpenRouter (Meta Llama 3.1 8B)
 - **UI:** shadcn/ui, Framer Motion
 - **Deployment:** Vercel
 
-## 跑 Locally
+## 🏃 Run Locally
 
+```bash
 git clone https://github.com/YOUR_USERNAME/medibridge
 cd medibridge
 npm install
 cp .env.example .env.local
-# Add your Gemini API key to .env.local
+# Add your OpenRouter API key to .env.local
 npm run dev
+```
 
-## 🔑 Get Gemini API Key
-1. Go to `https://aistudio.google.com`
-2. Click "Get API Key"
+## 🔑 Get OpenRouter API Key
+1. Go to `https://openrouter.ai`
+2. Create an account and get an API key
 3. Copy and paste in .env.local
 
 ## 📁 Project Structure
 medibridge/
 ├── app/
-│   ├── api/search/     # Gemini API route
+│   ├── api/search/     # OpenRouter API route
 │   ├── result/         # Results page
 │   ├── search/         # Search page
 │   └── about/          # About page
@@ -65,9 +66,7 @@ medibridge/
 - [ ] Medicine reminder feature
 
 ## ⚠️ Disclaimer
-MediBridge is not a substitute for professional 
-medical advice. Always consult a doctor before 
-switching medicines.
+MediBridge is not a substitute for professional medical advice. Always consult a doctor before switching medicines.
 
 ## 👨‍💻 Built By
 Made with ❤️ by `https://cloudexify.site`
