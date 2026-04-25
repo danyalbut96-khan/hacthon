@@ -6,6 +6,7 @@ import MedicineCard from "@/components/MedicineCard"
 import SubstituteCard from "@/components/SubstituteCard"
 import { motion } from "framer-motion"
 import { AlertCircle } from "lucide-react"
+import NotFoundState from "@/components/NotFoundState"
 
 export default function SearchResults() {
   const searchParams = useSearchParams()
@@ -17,11 +18,10 @@ export default function SearchResults() {
 
   if (filteredMedicines.length === 0) {
     return (
-      <div className="bg-white rounded-3xl p-12 text-center border-2 border-dashed border-slate-200">
-        <AlertCircle className="h-16 w-16 text-slate-300 mx-auto mb-4" />
-        <h3 className="text-xl font-bold text-slate-900 mb-2">No results found</h3>
-        <p className="text-slate-500">We couldn't find any medicine matching "{query}". Please try a different name.</p>
-      </div>
+      <NotFoundState 
+        query={query} 
+        suggestions={["Panadol", "Brufen", "Augmentin", "Disprin"]} 
+      />
     )
   }
 

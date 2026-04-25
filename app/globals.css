@@ -5,6 +5,8 @@
   --color-secondary: #10B981;
   --color-background: #F8FAFC;
   --color-text-main: #1E293B;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-urdu: var(--font-noto-urdu), serif;
 }
 
 :root {
