@@ -41,8 +41,8 @@ export async function POST(request: NextRequest) {
           "estimatedPrice": 0,
           "strength": "",
           "type": "",
-          "priceComparison": "",
-          "availability": "",
+          "priceComparison": "cheaper or same or expensive",
+          "availability": "high or medium or low",
           "rating": 0,
           "note": ""
         }
